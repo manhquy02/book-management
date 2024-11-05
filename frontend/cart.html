@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+     <!-- Header -->
+     <header class="header">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="./image/mau-logo-nha-sach.jpg" alt="Logo" >
+            <div class="logo-text">MẠNH QUÝ</div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" placeholder="Nhập tên sách cần thuê...">
+            <button>Tìm kiếm</button>
+        </div>
+
+        <!-- Account and Cart Icons -->
+        <div class="account-icons">
+            <a href="#">Đăng Nhập</a>
+            <a href="#">Đăng Ký</a>
+            <a href="#"> <i class="bi bi-cart-check-fill" alt="Cart"></i> </i> </a>             
+             <!-- Quản lý cửa hàng (Ẩn ban đầu) -->
+              <a href="http://localhost:1000/products">Quản lý bookstore</a>
+        </div>
+    </header>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Trang Chủ</a></li>
+            <li><a href="product.html">Sản phẩm</a></li>
+            <li><a href="#">Tin Tức</a></li>
+            <li><a href="#">Liên Hệ</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main -->
+     
+      <main class="main-content">
+        <!-- Left main -->
+        <aside class="sidebar"> 
+        <h2>Thể loại</h2>    
+        <ul>
+            <li><a href="product-thieunhi.html">Sách thiếu nhi</a></li>
+            <li><a href="product-vanhoc.html">Sách văn học</a></li>
+            <li><a href="">Sách truyền cảm hứng</a></li>
+        </ul>
+        </aside>
+        <!-- Right main -->
+        <div class="cart-container">
+            <!-- Sản phẩm sẽ được hiển thị tại đây -->
+            <table class="table">
+                <thead>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- Các sản phẩm sẽ được thêm vào đây thông qua JavaScript -->
+                </tbody>
+            </table>
+            <h3>Tổng tiền: <span id="total-amount">0</span> VND</h3>
+        
+        </div>
+    
+        <footer>
+            <button class="checkout-btn" onclick="checkout()">Thanh toán</button>
+        </footer>
+    
+        
+
+      </main>
+      
+</body>
+<script>
+ function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalAmountElement = document.getElementById('total-amount');
+            let totalAmount = 0;
+
+            cartItemsContainer.innerHTML = ''; // Clear existing items
+
+            cart.forEach(item => {
+                fetch(`http://localhost:1000/api/productdetail/${item.productId}`)
+                    .then(response => response.json())
+                    .then(product => {
+                        const quantity = item.quantity;
+                        const totalPrice = product.price * quantity;
+                        totalAmount += totalPrice;
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><img src="http://localhost:1000/images/${product.img}" alt="${product.name}" width="50"></td>
+                            <td>${product.name}</td>
+                            <td>${product.category}</td>
+                            <td>${product.price} VND</td>
+                            <td>${quantity}</td>
+                            <td>${totalPrice} VND</td>
+                        `;
+                        cartItemsContainer.appendChild(row);
+                    });
+            });
+
+            totalAmountElement.textContent = totalAmount; // Update total amount
+        }
+
+        // Checkout function
+        function checkout() {
+            // Redirect to the checkout page (you can customize this URL)
+            window.location.href = 'checkout.html';
+        }
+
+        // Load cart when the page is ready
+        document.addEventListener('DOMContentLoaded', loadCart);
+</script>
+</html>

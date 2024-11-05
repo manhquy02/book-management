@@ -1,0 +1,331 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   font-family: Arial, sans-serif;
+}
+
+/* Header */
+
+.image-header {
+   width: 100%; 
+   text-align: center; 
+ }
+ .image-header img {
+   width: 100%;
+   max-height: 500px;
+}
+
+
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px 20px;
+   background-color: #f8f8f8;
+}
+
+/* Logo */
+.logo img {
+   display: flex;
+   width: 100px;
+}
+
+.logo-text {
+   font-size: 20px;
+   font-weight: bold;
+}
+
+/* Search Bar */
+.search-bar {
+   flex: 1;
+   display: flex;
+   justify-content: center;
+}
+
+.search-bar input {
+   padding: 8px;
+   width: 250px;
+}
+
+.search-bar button {
+   padding: 8px;
+   background-color: red;
+   color: white;
+   border: none;
+   margin-left: 5px;
+}
+
+/* Account Icons */
+.account-icons a {
+   margin-left: 15px;
+   color: black;
+   text-decoration: none;
+   
+}
+
+/* Navbar */
+.navbar {
+   background-color: #333;
+   padding: 10px;
+   text-align: center;
+}
+
+.navbar ul {
+   list-style-type: none;
+   display: flex;
+   justify-content: center;
+}
+
+.navbar li {
+   margin: 0 10px;
+}
+
+.navbar a {
+   color: white;
+   text-decoration: none;
+   padding: 8px 15px;
+}
+
+.navbar a:hover {
+   background-color: #555;
+}
+
+/* Main Content Layout */
+.main-content {
+   gap: 20px;
+   display: flex;
+   padding: 20px;
+}
+/* Left Sidebar */
+.sidebar{
+   width: 20%;;
+   background-color: antiquewhite;
+   padding: 20px;
+   border-right: 1px solid #e74c3c;
+}
+.sidebar h2{
+   margin-bottom: 15px;
+   color: #e74c3c;
+}
+.sidebar ul{
+   list-style-type: none;
+   margin-bottom: 20px;
+}
+.sidebar ul li{
+   margin-bottom: 10px;
+}
+.sidebar ul li a {
+   text-decoration: none;
+   color: #333;
+}
+
+/*  - Product Section */
+ .product-display h2{
+   color:orangered;
+   text-align: center;
+} 
+.product-item{
+   display: flex; 
+} 
+
+/* Row for products - using flexbox */
+.products{
+   text-align: center;
+}
+h2 {
+   font-size: 24px;
+   margin-bottom: 30px;
+}
+.filter {
+   margin-bottom: 30px;
+}
+.filter span {
+   margin: 0 30px;
+   font-weight: bold;
+   color: #333;
+   cursor: pointer;
+}
+.row {
+   display: grid;
+   grid-template-columns: repeat(5, 1fr);
+   gap: 20px;
+}
+
+/* Column for each product */
+.colum {
+   background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+/* Product image */
+
+.colum img {
+   width: 100%;
+   height: 250px; 
+   object-fit: cover; 
+   margin-bottom: 15px;
+}
+
+/* Product name */
+.colum h3 {
+   font-size: 18px;
+   margin-bottom: 5px;
+}
+
+/* Product price */
+.colum p {
+   font-size: 16px;
+   color: #e74c3c;
+   font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+   .colum {
+       flex: 0 1 45%; /* Với màn hình nhỏ, mỗi sản phẩm chiếm 45% chiều rộng */
+   }
+}
+
+@media (max-width: 480px) {
+   .colum {
+       flex: 0 1 100%; /* Với màn hình rất nhỏ, mỗi sản phẩm chiếm toàn bộ chiều rộng */
+   }
+}
+
+/* detail product */
+.product-detail {
+   display: flex;
+   gap: 30px;
+   background-color: white;
+   padding: 20px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+   border-radius: 10px;
+   max-width: 1200px;
+   margin: 0 auto;
+}
+.product-detail-image {
+   width: 100%; /* Chiếm toàn bộ chiều rộng của cột cha */
+   max-width: 500px; /* Chiều rộng tối đa của hình ảnh */
+   margin: 0 auto; /* Căn giữa hình ảnh */
+   height: 450px; 
+   position: relative;
+}
+
+.product-detail-image img {
+   width: 100%; /* Hình ảnh sẽ chiếm toàn bộ chiều rộng của phần chứa */
+   height: 100%; 
+   border-radius: 10px; /* Bo tròn các góc */
+   object-fit: cover; /* Đảm bảo hình ảnh được cắt cho khớp với không gian mà không làm biến dạng */
+}
+
+.product-detail-info {
+   flex: 2;
+   display: flex;
+   flex-direction: column;
+}
+.product-detail-info p{
+   font-weight: bold;
+}
+
+.quantity-selector {
+   display: flex;
+   align-items: center;
+   margin-bottom: 20px;
+}
+
+.quantity-selector label {
+   margin-right: 10px;
+   font-size: 16px;
+}
+
+.quantity-selector input {
+   width: 50px;
+   padding: 5px;
+   font-size: 16px;
+}
+
+.add-to-cart-btn {
+   padding: 10px 20px;
+   background-color: #27ae60;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 16px;
+   margin-bottom: 20px;
+}
+
+.add-to-cart-btn:hover {
+   background-color: #2ecc71;
+}
+
+
+
+/* Footer Styles */
+.footer {
+   background-color: #f1f1f1;
+   padding: 20px 20px;
+}
+
+.footer-container {
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+
+.footer-column {
+   flex-basis: 22%;
+   margin-bottom: 20px;
+}
+
+.footer-column h3 {
+   font-size: 18px;
+   margin-bottom: 15px;
+   color: #e74c3c; /* Same color as the "Sneaker" logo */
+}
+
+.footer-column p,
+.footer-column a {
+   font-size: 14px;
+   color: #555;
+   line-height: 1.6;
+}
+
+.footer-column a {
+   text-decoration: none;
+}
+
+.footer-column a:hover {
+   text-decoration: underline;
+}
+
+/* Navigation & Service Links */
+.footer-column ul {
+   list-style-type: none;
+   padding: 0;
+}
+
+.footer-column ul li {
+   margin-bottom: 10px;
+}
+
+/* Newsletter Section */
+.footer-column form {
+   display: flex;
+   margin-top: 10px;
+}
+
+.footer-column button:hover {
+   background-color: #d62c1a;
+}
+
+
+
+
