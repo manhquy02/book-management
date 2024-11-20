@@ -1,0 +1,1 @@
+{"_id":{"$oid":"672044e60360772b64b85563"},"userId":{"$oid":"671213c4b649801fd50cb4c0"},"products":[{"productId":{"$oid":"66cede247bf98fe7332f9989"},"name":"Alice ở xứ sở diệu kỳ","price":400,"img":"Alice ở xứ sở diệu kỳ.jpeg","quantity":5}],"totalPrice":2000}

@@ -5,13 +5,13 @@ const proCate2 = document.querySelector('#proCate2')
 
 
 //san pham hot
-fetch('http://localhost:1000/api/products/hot')
+fetch('http://localhost:1234/api/products/hot')
     .then(response => response.json())
     .then(data => {
         data.forEach(product => {
             hot.innerHTML += `
 <div class="colum">
-<img src="http://localhost:1000/images/${product.img} ">
+<img src="http://localhost:1234/images/${product.img} ">
 <h3>${product.name}</h3>
 <p>${product.price}</p>
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -22,13 +22,13 @@ fetch('http://localhost:1000/api/products/hot')
     .catch(err=>console.log(err))
 
 //san pham hot sachthieunhi
-fetch('http://localhost:1000/api/products/hot/categoryid/1')
+fetch('http://localhost:1234/api/products/hot/categoryid/1')
     .then(response => response.json())
     .then(data => {
         data.forEach(product => {
             hotthieunhi.innerHTML += `
 <div class="colum">
-<img src="http://localhost:1000/images/${product.img} ">
+<img src="http://localhost:1234/images/${product.img} ">
 <h3>${product.name}</h3>
 <p>${product.price}</p>
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -39,13 +39,13 @@ fetch('http://localhost:1000/api/products/hot/categoryid/1')
     .catch(err=>console.log(err))
 
     //san pham hot sachvanhoc
-fetch('http://localhost:1000/api/products/hot/categoryid/2')
+fetch('http://localhost:1234/api/products/hot/categoryid/2')
 .then(response => response.json())
 .then(data => {
     data.forEach(product => {
         hotvanhoc.innerHTML += `
 <div class="colum">
-<img src="http://localhost:1000/images/${product.img} ">
+<img src="http://localhost:1234/images/${product.img} ">
 <h3>${product.name}</h3>
 <p>${product.price}</p>
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -56,13 +56,13 @@ fetch('http://localhost:1000/api/products/hot/categoryid/2')
 .catch(err=>console.log(err))
 
     //san pham hot sachtruyencamhung
-    fetch('http://localhost:1000/api/products/hot/categoryid/3')
+    fetch('http://localhost:1234/api/products/hot/categoryid/3')
     .then(response => response.json())
     .then(data => {
         data.forEach(product => {
             hottruyencamhung.innerHTML += `
     <div class="colum">
-    <img src="http://localhost:1000/images/${product.img} ">
+    <img src="http://localhost:1234/images/${product.img} ">
     <h3>${product.name}</h3>
     <p>${product.price}</p>
     <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -74,13 +74,13 @@ fetch('http://localhost:1000/api/products/hot/categoryid/2')
 
 
 //san pham dm1
-fetch('http://localhost:1000/api/products/categoryname/sachthieunhi')
+fetch('http://localhost:1234/api/products/categoryname/sachthieunhi')
     .then(response => response.json())
     .then(data => {
         data.forEach(product => {
             proCate1.innerHTML += `
 <div class="colum">
-<img src="http://localhost:1000/images/${product.img}">
+<img src="http://localhost:1234/images/${product.img}">
 <h3>${product.name}</h3>
 <p>${product.price}</p>
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -95,13 +95,13 @@ fetch('http://localhost:1000/api/products/categoryname/sachthieunhi')
 
     
 //san pham dm2
-fetch('http://localhost:1000/api/products/categoryname/sachvanhoc')
+fetch('http://localhost:1234/api/products/categoryname/sachvanhoc')
 .then(response => response.json())
 .then(data => {
     data.forEach(product => {
         proCate2.innerHTML += `
 <div class="colum">
-<img src="http://localhost:1000/images/${product.img}">
+<img src="http://localhost:1234/images/${product.img}">
 <h3>${product.name}</h3>
 <p>${product.price}</p>
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -112,13 +112,13 @@ fetch('http://localhost:1000/api/products/categoryname/sachvanhoc')
 .catch(err=>console.log(err))
 
 //san pham dm3
-fetch('http://localhost:1000/api/products/categoryname/sachtruyencamhung')
+fetch('http://localhost:1234/api/products/categoryname/sachtruyencamhung')
 .then(response => response.json())
 .then(data => {
     data.forEach(product => {
         proCate3.innerHTML += `
 <div class="colum">
-<img src="http://localhost:1000/images/${product.img}"">
+<img src="http://localhost:1234/images/${product.img}"">
 <h3>${product.name}</h3>
 <p>${product.price}</p>
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -129,13 +129,13 @@ fetch('http://localhost:1000/api/products/categoryname/sachtruyencamhung')
 .catch(err=>console.log(err))
 
 //hien thi tat ca san pham
-fetch('http://localhost:1000/api/products')
+fetch('http://localhost:1234/api/products')
 .then(response => response.json())
 .then(data => {
     data.forEach(product => {
         proAll.innerHTML += `
 <div class="colum">
-<img src="http://localhost:1000/images/${product.img}" ">
+<img src="http://localhost:1234/images/${product.img}" ">
 <h3>${product.name}</h3>
 <p>${product.price}</p>
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
@@ -150,13 +150,13 @@ fetch('http://localhost:1000/api/products')
 //xem chi tiet san pham
 const detail=document.querySelector('#detail')
 const id = window.location.href.split('id=')[1];
-fetch(`http://localhost:1000/api/productdetail/${id}`)
+fetch(`http://localhost:1234/api/productdetail/${id}`)
 .then(response => response.json())
 .then(product => {
    
         detail.innerHTML += `
       <div class="product-detail-image">  
-<img src="http://localhost:1000/images/${product.img} ">
+<img src="http://localhost:1234/images/${product.img} ">
         </div>
 <div class="product-detail-info">
 <h3>${product.name}</h3>

@@ -1,0 +1,2 @@
+{"_id":{"$oid":"671213c4b649801fd50cb4c0"},"id":1,"email":"quy@gmail.com","password":"123","fullname":"quy","isAdmin":1,"img":"admin.jpeg"}
+{"_id":{"$oid":"671b5db297c51c21f9290bd5"},"id":4,"email":"user1@gmail.com","password":"$2a$10$nWlKsWvJYXno/NcO7OQLAuKj5hJrLAnfvu5xcLG.Tq.iwlTCNfpYO","fullname":"user1","isAdmin":0}
