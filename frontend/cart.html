@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
-     <!-- Header -->
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Giỏ Hàng</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+			}
+			.cart-item {
+				display: flex;
+				justify-content: space-between;
+				margin: 10px 0;
+			}
+			.cart-item div {
+				margin: 0 10px;
+			}
+		</style>
+            <link rel="stylesheet" href="style.css">
+
+	</head>
+	<body>
+        <!-- Header -->
      <header class="header">
         <!-- Logo -->
         <div class="logo">
@@ -25,14 +37,13 @@
 
         <!-- Account and Cart Icons -->
         <div class="account-icons">
-            <a href="#">Đăng Nhập</a>
-            <a href="#">Đăng Ký</a>
-            <a href="#"> <i class="bi bi-cart-check-fill" alt="Cart"></i> </i> </a>             
-             <!-- Quản lý cửa hàng (Ẩn ban đầu) -->
-              <a href="http://localhost:1234/products">Quản lý bookstore</a>
+            <a href="login.html">Đăng Nhập</a>
+            <a href="register.html">Đăng Ký</a>
+            <a href="cart.html"> <i class="bi bi-cart-check-fill" alt="Cart"></i> </i> </a>
+              <!-- Quản lý cửa hàng (Ẩn ban đầu) -->
+              <a href="http://localhost:1234/categories">Quản lý bookstore</a>
         </div>
     </header>
-
     <!-- Navbar -->
     <nav class="navbar">
         <ul>
@@ -42,88 +53,114 @@
             <li><a href="#">Liên Hệ</a></li>
         </ul>
     </nav>
-
-    <!-- Main -->
-     
-      <main class="main-content">
-        <!-- Left main -->
-        <aside class="sidebar"> 
-        <h2>Thể loại</h2>    
-        <ul>
-            <li><a href="product-thieunhi.html">Sách thiếu nhi</a></li>
-            <li><a href="product-vanhoc.html">Sách văn học</a></li>
-            <li><a href="">Sách truyền cảm hứng</a></li>
-        </ul>
-        </aside>
-        <!-- Right main -->
-        <div class="cart-container">
-            <!-- Sản phẩm sẽ được hiển thị tại đây -->
-            <table class="table">
-                <thead>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Danh mục</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Thành tiền</th>
-                </thead>
-                <tbody id="cart-items">
-                    <!-- Các sản phẩm sẽ được thêm vào đây thông qua JavaScript -->
-                </tbody>
-            </table>
-            <h3>Tổng tiền: <span id="total-amount">0</span> VND</h3>
-        
+		<h1>Giỏ Hàng</h1>
+        <div style="margin: 0 50px; text-align: center;">
+            <div id="cart"></div>
+            <div id="total"></div>
+            <button id="checkout-btn">Thanh Toán</button>
         </div>
-    
-        <footer>
-            <button class="checkout-btn" onclick="checkout()">Thanh toán</button>
-        </footer>
-    
-        
 
-      </main>
-      
-</body>
-<script>
- function loadCart() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const cartItemsContainer = document.getElementById('cart-items');
-            const totalAmountElement = document.getElementById('total-amount');
-            let totalAmount = 0;
+		<script>
+			const cartContainer = document.getElementById("cart");
+			const totalContainer = document.getElementById("total");
 
-            cartItemsContainer.innerHTML = ''; // Clear existing items
+			// Lấy dữ liệu giỏ hàng từ localStorage
+			function getCart() {
+				return JSON.parse(localStorage.getItem("cart")) || [];
+			}
 
-            cart.forEach(item => {
-                fetch(`http://localhost:1000/api/productdetail/${item.productId}`)
-                    .then(response => response.json())
-                    .then(product => {
-                        const quantity = item.quantity;
-                        const totalPrice = product.price * quantity;
-                        totalAmount += totalPrice;
+			// Lưu dữ liệu giỏ hàng vào localStorage
+			function setCart(cart) {
+				localStorage.setItem("cart", JSON.stringify(cart));
+			}
 
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><img src="http://localhost:1000/images/${product.img}" alt="${product.name}" width="50"></td>
-                            <td>${product.name}</td>
-                            <td>${product.category}</td>
-                            <td>${product.price} VND</td>
-                            <td>${quantity}</td>
-                            <td>${totalPrice} VND</td>
-                        `;
-                        cartItemsContainer.appendChild(row);
-                    });
-            });
+			// Hiển thị giỏ hàng
+			function displayCart() {
+				const cart = getCart();
+				let total = 0;
 
-            totalAmountElement.textContent = totalAmount; // Update total amount
-        }
+				// Xóa nội dung trước khi hiển thị lại
+				cartContainer.innerHTML = "";
 
-        // Checkout function
-        function checkout() {
-            // Redirect to the checkout page (you can customize this URL)
-            window.location.href = 'checkout.html';
-        }
+				// Hiển thị từng sản phẩm trong giỏ
+				cart.forEach((item) => {
+					const itemTotal = item.price * item.quantity;
+					total += itemTotal;
 
-        // Load cart when the page is ready
-        document.addEventListener('DOMContentLoaded', loadCart);
-</script>
+					// Tạo phần tử HTML cho mỗi sản phẩm
+					const cartItem = document.createElement("div");
+					cartItem.className = "cart-item";
+
+					cartItem.innerHTML = `
+                        <div>${item.name}</div>
+                        <div>Giá: ${item.price} VNĐ</div>
+                        <div>
+                            Số lượng: 
+                            <input 
+                                type="number" 
+                                id="quantity-${item.id}" 
+                                name="quantity-${item.id}" 
+                                value="${item.quantity}" 
+                                min="1" 
+                            />
+                        </div>
+                        <div>Tổng: ${itemTotal} VNĐ</div>
+                        <div><button id="remove-${item.id}">Xóa</button></div>
+                    `;
+
+					cartContainer.appendChild(cartItem);
+
+					// Gán sự kiện thay đổi số lượng
+					const quantityInput = document.getElementById(`quantity-${item.id}`);
+					quantityInput.addEventListener("change", (e) => {
+						const newQuantity = parseInt(e.target.value, 10);
+						if (newQuantity > 0) {
+							updateQuantity(item.id, newQuantity);
+						} else {
+							alert("Số lượng phải lớn hơn 0.");
+							e.target.value = item.quantity; // Khôi phục giá trị cũ
+						}
+					});
+
+					// Gán sự kiện xóa sản phẩm
+					const removeButton = document.getElementById(`remove-${item.id}`);
+					removeButton.addEventListener("click", () => {
+						removeItem(item.id);
+					});
+				});
+
+				// Hiển thị tổng cộng
+				totalContainer.innerHTML = `<h2>Tổng cộng: ${total} VNĐ</h2>`;
+			}
+
+			// Cập nhật số lượng sản phẩm
+			function updateQuantity(productId, quantity) {
+				const cart = getCart();
+				const updatedCart = cart.map((item) => {
+					if (item.id === productId) {
+						return { ...item, quantity };
+					}
+					return item;
+				});
+				setCart(updatedCart);
+				displayCart(); // Làm mới hiển thị
+			}
+
+			// Xóa sản phẩm khỏi giỏ hàng
+			function removeItem(productId) {
+				const cart = getCart();
+				const updatedCart = cart.filter((item) => item.id !== productId);
+				setCart(updatedCart);
+				displayCart(); // Làm mới hiển thị
+			}
+
+			// Hiển thị giỏ hàng khi tải trang
+			displayCart();
+
+			// Chuyển hướng đến trang thanh toán
+			document.getElementById("checkout-btn").addEventListener("click", () => {
+				window.location.href = "pay.html";
+			});
+		</script>
+	</body>
 </html>

@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const multer = require('multer');
 //Thiết lập nơi lưu trữ và tên file
@@ -27,22 +27,11 @@ let upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 const connectDb = require('../models/db')
 
 
-
-
 router.get('/', async (req, res) => {
     const db = await connectDb()
-    const cartsCollection = db.collection('carts')
-    const carts = await cartsCollection.find().toArray()
-    res.render('cart',{carts})
+    const ordersCollection = db.collection('orders')
+    const orders = await ordersCollection.find().toArray()
+    res.render('order',{orders})
 })
-
-// Route lấy giỏ hàng theo userId
-
-// router.get('/userId', async (req, res) => {
-//     const db = await connectDb()
-//     const cartsCollection = db.collection('carts')
-//     const carts = await cartsCollection.find().toArray()
-//     res.render('cart',{carts})
-// })
 
 module.exports = router;

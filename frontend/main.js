@@ -148,51 +148,56 @@ fetch('http://localhost:1234/api/products')
 
 
 //xem chi tiet san pham
-const detail=document.querySelector('#detail')
+const detail = document.querySelector('#detail');
 const id = window.location.href.split('id=')[1];
+
 fetch(`http://localhost:1234/api/productdetail/${id}`)
-.then(response => response.json())
-.then(product => {
-   
+    .then(response => response.json())
+    .then(product => {
         detail.innerHTML += `
-      <div class="product-detail-image">  
-<img src="http://localhost:1234/images/${product.img} ">
-        </div>
-<div class="product-detail-info">
-<h3>${product.name}</h3>
-<p>Giá:${product.price}</p>
-<p>Mô tả: ${product.description}</p>
-<div class="quantity-selector">
-            <label for="quantity">Số lượng:</label>
-            <input type="number" id="quantity" name="quantity" value="1" min="1">
-        </div>
+            <div class="product-detail-image">  
+                <img src="http://localhost:1000/images/${product.img}">
+            </div>
+            <div class="product-detail-info">
+                <h3>${product.name}</h3>
+                <p>Giá: ${product.price}</p>
+                <p>Mô tả: ${product.description}</p>
+                <div class="quantity-selector">
+                    <label for="quantity">Số lượng:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1">
+                </div>
+                <button class="add-to-cart-btn">Thêm vào giỏ hàng</button>
+            </div>
+        `;
 
-          <button class="add-to-cart-btn" id="add-to-cart-btn">Thêm vào giỏ hàng</button>
-</div>
-`
-    })
+        // Thêm sự kiện cho nút "Thêm vào giỏ hàng"
+        const addToCartBtn = document.querySelector('.add-to-cart-btn');
+        addToCartBtn.addEventListener('click', () => {
+            const quantity = parseInt(document.querySelector('#quantity').value);
+            addToCart(product, quantity);
+        });
+    });
 
-.catch(err=>console.log(err))
-// Hàm thêm sản phẩm vào giỏ hàng
-function addToCart(productId, quantity) {
+function addToCart(product, quantity) {
+    // Lấy giỏ hàng từ localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    const existingProduct = cart.find(item => item.productId === productId);
-
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    const existingProduct = cart.find(item => item.id === product.id);
     if (existingProduct) {
-        // Cập nhật số lượng nếu sản phẩm đã có trong giỏ
-        existingProduct.quantity += parseInt(quantity);
+        existingProduct.quantity += quantity; // Cập nhật số lượng
     } else {
-        // Thêm sản phẩm mới vào giỏ
-        cart.push({ productId, quantity: parseInt(quantity) });
+        // Thêm sản phẩm mới vào giỏ hàng
+        cart.push({ id: product.id, name: product.name, price: product.price, quantity: quantity });
     }
 
-    // Lưu giỏ hàng vào local storage
+    // Lưu giỏ hàng vào localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Chuyển hướng đến trang giỏ hàng
-    window.location.href = 'cart.html';
+
+    // Hiển thị thông báo hoặc cập nhật giao diện
+    alert('Sản phẩm đã được thêm vào giỏ hàng!');
 }
+
 
 
 

@@ -7,7 +7,7 @@ const usersRouter = require('./routers/users')
 const productsRouter = require('./routers/products')
 const apiRouter = require('./routers/api')
 const categoriesRouter = require("./routers/categories")
-const cartsRouter = require('./routers/carts');
+const ordersRouter = require('./routers/orders');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 
@@ -25,7 +25,7 @@ app.use('/users',usersRouter)
 app.use('/products',productsRouter)
 app.use('/api',apiRouter)
 app.use('/categories',categoriesRouter)
-app.use('/carts', cartsRouter);
+app.use('/orders', ordersRouter);
 
 
 

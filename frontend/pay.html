@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Thanh toán</title>
+		<style>
+			body {
+				font-family: sans-serif;
+			}
+			.container {
+				display: flex;
+				justify-content: space-between;
+				padding: 100px;
+			}
+			.cart-container {
+				width: 300px;
+				border: 1px solid #ccc;
+				padding: 20px;
+			}
+			.cart-item {
+				margin-bottom: 10px;
+			}
+			.total {
+				font-weight: bold;
+			}
+			.payment-form {
+				width: 500px;
+			}
+			.payment-form input {
+				width: 100%;
+				padding: 10px;
+				margin-bottom: 10px;
+				border: 1px solid #ccc;
+			}
+			.payment-form select {
+				width: 100%;
+				padding: 10px;
+				margin-bottom: 10px;
+				border: 1px solid #ccc;
+			}
+			.payment-form button {
+				background-color: #4caf50;
+				color: white;
+				padding: 10px 20px;
+				border: none;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="cart-container" id="cart"></div>
+			<form class="payment-form">
+				<h2>Thông tin khách hàng</h2>
+				<label for="name">Họ tên khách hàng:</label>
+				<input type="text" id="name" placeholder="Họ tên khách hàng" required />
+				<label for="phone">Số điện thoại:</label>
+				<input type="tel" id="phone" placeholder="Số điện thoại" required />
+				<label for="address">Địa chỉ:</label>
+				<input type="text" id="address" placeholder="Địa chỉ" required />
+				<label for="email">Email:</label>
+				<input type="email" id="email" placeholder="Email" required />
+				<h3>Hình thức thanh toán</h3>
+				<select id="payment-method">
+					<option value="cod">COD</option>
+					<option value="bank">Chuyển khoản</option>
+				</select>
+				<button type="can">Thanh toán</button>
+			</form>
+		</div>
+
+		<script>
+			// Lấy thông tin giỏ hàng từ localStorage
+			const cart = JSON.parse(localStorage.getItem("cart")) || [];
+			const cartContainer = document.getElementById("cart");
+
+			// Hiển thị thông tin giỏ hàng
+			function displayCart() {
+				let total = 0;
+				cart.forEach((item) => {
+					const itemTotal = item.price * item.quantity;
+					total += itemTotal;
+
+					cartContainer.innerHTML += `
+                    <div class="cart-item">
+                        <div>${item.name} - Giá: ${item.price} VNĐ - Số lượng: ${item.quantity} - Tổng: ${itemTotal} VNĐ</div>
+                    </div>
+                `;
+				});
+				cartContainer.innerHTML += `<div class="total">Tổng cộng: ${total} VNĐ</div>`;
+			}
+
+			// Hiển thị giỏ hàng khi trang được tải
+			displayCart();
+
+			// Xử lý sự kiện submit form
+			const paymentForm = document.querySelector(".payment-form");
+			paymentForm.addEventListener("submit", function (event) {
+				event.preventDefault();
+
+				// Lấy thông tin khách hàng từ form
+				const name = document.getElementById("name").value;
+				const phone = document.getElementById("phone").value;
+				const address = document.getElementById("address").value;
+				const email = document.getElementById("email").value;
+				const paymentMethod = document.getElementById("payment-method").value;
+
+				// Tính tổng giá trị của giỏ hàng
+				let total = 0;
+				cart.forEach((item) => {
+					total += item.price * item.quantity;
+				});
+
+				// Tạo đối tượng order
+				const order = {
+					customer: {
+						name,
+						phone,
+						address,
+						email,
+					},
+					cart,
+					paymentMethod,
+					total,
+				};
+
+				// Gửi đối tượng order đến server
+				// Gửi đối tượng order đến server
+				fetch("http://localhost:1234/api/orders", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(order),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						console.log("Success:", data);
+						// Xóa giỏ hàng khỏi localStorage
+						localStorage.removeItem("cart");
+
+						// Thông báo cho khách hàng
+						alert(
+							"Đơn hàng của bạn đã được gửi. Chúng tôi sẽ liên hệ với bạn để xác nhận và tiến hành thanh toán."
+						);
+
+						// Chuyển hướng về trang chủ
+						window.location.href = "index.html";
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+						alert("Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại.");
+					});
+			});
+		</script>
+	</body>
+</html>
