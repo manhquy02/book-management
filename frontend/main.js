@@ -160,7 +160,7 @@ fetch(`http://localhost:1234/api/productdetail/${id}`)
     .then(product => {
         detail.innerHTML += `
             <div class="product-detail-image">  
-                <img src="http://localhost:1000/images/${product.img}">
+                <img src="http://localhost:1234/images/${product.img}">
             </div>
             <div class="product-detail-info">
                 <h3>${product.name}</h3>
