@@ -1,98 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Giỏ Hàng</title>
-		<style>
-			body {
-				font-family: Arial, sans-serif;
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Giỏ Hàng</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+
+		.cart-item {
+			display: flex;
+			justify-content: space-between;
+			margin: 20px 0;
+		}
+
+		.cart-item div {
+			margin: 0 10px;
+		}
+
+		h1 {
+			margin: 30px;
+			color: orangered;
+		}
+	</style>
+	<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+	<!-- Header -->
+	<header class="header">
+		<!-- Logo -->
+		<div class="logo">
+			<img src="./image/mau-logo-nha-sach.jpg" alt="Logo">
+			<div class="logo-text">MẠNH QUÝ</div>
+		</div>
+
+		<!-- Search Bar -->
+		<div class="search-bar">
+			<input type="text" placeholder="Nhập tên sách cần thuê...">
+			<button>Tìm kiếm</button>
+		</div>
+
+		<!-- Account and Cart Icons -->
+		<div class="account-icons">
+			<a href="login.html">Đăng Nhập</a>
+			<a href="register.html">Đăng Ký</a>
+			<a href="cart.html"> <i class="bi bi-cart-check-fill" alt="Cart"></i> </i> </a>
+			<!-- Quản lý cửa hàng (Ẩn ban đầu) -->
+			<a href="http://localhost:1234/categories">Quản lý bookstore</a>
+		</div>
+	</header>
+	<!-- Navbar -->
+	<nav class="navbar">
+		<ul>
+			<li><a href="index.html">Trang Chủ</a></li>
+			<li><a href="product.html">Sản phẩm</a></li>
+			<li><a href="#">Tin Tức</a></li>
+			<li><a href="#">Liên Hệ</a></li>
+		</ul>
+	</nav>
+	<h1>Giỏ Hàng</h1>
+	<div style="margin: 0 50px; text-align: center;">
+		<table>
+			<div id="cart"></div>
+			<div id="total"></div>
+		</table>
+		<button id="checkout-btn">Thanh Toán</button>
+	</div>
+
+	<script>
+		const cartContainer = document.getElementById("cart");
+		const totalContainer = document.getElementById("total");
+
+		// Lấy dữ liệu giỏ hàng từ localStorage
+		function getCart() {
+			return JSON.parse(localStorage.getItem("cart")) || [];
+		}
+
+		// Lưu dữ liệu giỏ hàng vào localStorage
+		function setCart(cart) {
+			localStorage.setItem("cart", JSON.stringify(cart));
+		}
+
+		// Thêm sách vào giỏ hàng với số lượng mặc định là 10
+		function addToCart(item) {
+			const cart = getCart();
+
+			// Kiểm tra nếu sản phẩm đã có trong giỏ hàng
+			const existingItem = cart.find((cartItem) => cartItem.id === item.id);
+			if (existingItem) {
+				// Nếu sản phẩm đã có, chỉ cần tăng số lượng lên 10
+				existingItem.quantity = 10;
+			} else {
+				// Nếu sản phẩm chưa có, thêm sản phẩm vào giỏ hàng với số lượng là 10
+				item.quantity = 10;
+				cart.push(item);
 			}
-			.cart-item {
-				display: flex;
-				justify-content: space-between;
-				margin: 10px 0;
-			}
-			.cart-item div {
-				margin: 0 10px;
-			}
-		</style>
-            <link rel="stylesheet" href="style.css">
+		}
 
-	</head>
-	<body>
-        <!-- Header -->
-     <header class="header">
-        <!-- Logo -->
-        <div class="logo">
-            <img src="./image/mau-logo-nha-sach.jpg" alt="Logo" >
-            <div class="logo-text">MẠNH QUÝ</div>
-        </div>
+		// Hiển thị giỏ hàng
+		function displayCart() {
+			const cart = getCart();
+			let total = 0;
 
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <input type="text" placeholder="Nhập tên sách cần thuê...">
-            <button>Tìm kiếm</button>
-        </div>
+			// Xóa nội dung trước khi hiển thị lại
+			cartContainer.innerHTML = "";
 
-        <!-- Account and Cart Icons -->
-        <div class="account-icons">
-            <a href="login.html">Đăng Nhập</a>
-            <a href="register.html">Đăng Ký</a>
-            <a href="cart.html"> <i class="bi bi-cart-check-fill" alt="Cart"></i> </i> </a>
-              <!-- Quản lý cửa hàng (Ẩn ban đầu) -->
-              <a href="http://localhost:1234/categories">Quản lý bookstore</a>
-        </div>
-    </header>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <ul>
-            <li><a href="index.html">Trang Chủ</a></li>
-            <li><a href="product.html">Sản phẩm</a></li>
-            <li><a href="#">Tin Tức</a></li>
-            <li><a href="#">Liên Hệ</a></li>
-        </ul>
-    </nav>
-		<h1>Giỏ Hàng</h1>
-        <div style="margin: 0 50px; text-align: center;">
-            <div id="cart"></div>
-            <div id="total"></div>
-            <button id="checkout-btn">Thanh Toán</button>
-        </div>
+			// Hiển thị từng sản phẩm trong giỏ
+			cart.forEach((item) => {
+				const itemTotal = item.price * item.quantity;
+				total += itemTotal;
 
-		<script>
-			const cartContainer = document.getElementById("cart");
-			const totalContainer = document.getElementById("total");
+				// Tạo phần tử HTML cho mỗi sản phẩm
+				const cartItem = document.createElement("div");
+				cartItem.className = "cart-item";
 
-			// Lấy dữ liệu giỏ hàng từ localStorage
-			function getCart() {
-				return JSON.parse(localStorage.getItem("cart")) || [];
-			}
-
-			// Lưu dữ liệu giỏ hàng vào localStorage
-			function setCart(cart) {
-				localStorage.setItem("cart", JSON.stringify(cart));
-			}
-
-			// Hiển thị giỏ hàng
-			function displayCart() {
-				const cart = getCart();
-				let total = 0;
-
-				// Xóa nội dung trước khi hiển thị lại
-				cartContainer.innerHTML = "";
-
-				// Hiển thị từng sản phẩm trong giỏ
-				cart.forEach((item) => {
-					const itemTotal = item.price * item.quantity;
-					total += itemTotal;
-
-					// Tạo phần tử HTML cho mỗi sản phẩm
-					const cartItem = document.createElement("div");
-					cartItem.className = "cart-item";
-
-					cartItem.innerHTML = `
-                        <div>${item.name}</div>
+				cartItem.innerHTML = `
+					<table>
+                        <div style="width: 300px; height:40px;">${item.name}</div>
                         <div>Giá: ${item.price} VNĐ</div>
                         <div>
                             Số lượng: 
@@ -104,63 +132,83 @@
                                 min="1" 
                             />
                         </div>
+						
                         <div>Tổng: ${itemTotal} VNĐ</div>
                         <div><button id="remove-${item.id}">Xóa</button></div>
                     `;
 
-					cartContainer.appendChild(cartItem);
+				cartContainer.appendChild(cartItem);
 
-					// Gán sự kiện thay đổi số lượng
-					const quantityInput = document.getElementById(`quantity-${item.id}`);
-					quantityInput.addEventListener("change", (e) => {
-						const newQuantity = parseInt(e.target.value, 10);
-						if (newQuantity > 0) {
-							updateQuantity(item.id, newQuantity);
-						} else {
-							alert("Số lượng phải lớn hơn 0.");
-							e.target.value = item.quantity; // Khôi phục giá trị cũ
-						}
-					});
+				// Gán sự kiện thay đổi số lượng
+				// const quantityInput = document.getElementById(`quantity-${item.id}`);
+				// quantityInput.addEventListener("change", (e) => {
+				// 	const newQuantity = parseInt(e.target.value, 10);
+				// 	if (newQuantity > 0) {
+				// 		updateQuantity(item.id, newQuantity);
+				// 	} else {
+				// 		alert("Số lượng phải lớn hơn 0.");
+				// 		e.target.value = item.quantity; // Khôi phục giá trị cũ
+				// 	}
+				// });
+				// Gán sự kiện thay đổi số lượng
+				const quantityInput = document.getElementById(`quantity-${item.id}`);
+				quantityInput.addEventListener("change", (e) => {
+					const newQuantity = parseInt(e.target.value, 10);
 
-					// Gán sự kiện xóa sản phẩm
-					const removeButton = document.getElementById(`remove-${item.id}`);
-					removeButton.addEventListener("click", () => {
-						removeItem(item.id);
-					});
-				});
-
-				// Hiển thị tổng cộng
-				totalContainer.innerHTML = `<h2>Tổng cộng: ${total} VNĐ</h2>`;
-			}
-
-			// Cập nhật số lượng sản phẩm
-			function updateQuantity(productId, quantity) {
-				const cart = getCart();
-				const updatedCart = cart.map((item) => {
-					if (item.id === productId) {
-						return { ...item, quantity };
+					// Kiểm tra nếu số lượng lớn hơn 10
+					if (newQuantity > 10) {
+						alert("hết hàng");
+						e.target.value = 10;
+						updateQuantity(item.id, 10);
+					} else if (newQuantity > 0) {
+						updateQuantity(item.id, newQuantity);
+					} else {
+						alert("Số lượng phải lớn hơn 0.");
+						e.target.value = item.quantity;
 					}
-					return item;
 				});
-				setCart(updatedCart);
-				displayCart(); // Làm mới hiển thị
-			}
 
-			// Xóa sản phẩm khỏi giỏ hàng
-			function removeItem(productId) {
-				const cart = getCart();
-				const updatedCart = cart.filter((item) => item.id !== productId);
-				setCart(updatedCart);
-				displayCart(); // Làm mới hiển thị
-			}
 
-			// Hiển thị giỏ hàng khi tải trang
-			displayCart();
-
-			// Chuyển hướng đến trang thanh toán
-			document.getElementById("checkout-btn").addEventListener("click", () => {
-				window.location.href = "pay.html";
+				// Gán sự kiện xóa sản phẩm
+				const removeButton = document.getElementById(`remove-${item.id}`);
+				removeButton.addEventListener("click", () => {
+					removeItem(item.id);
+				});
 			});
-		</script>
-	</body>
+
+			// Hiển thị tổng cộng
+			totalContainer.innerHTML = `<h2>Tổng cộng: ${total} VNĐ</h2>`;
+		}
+
+		// Cập nhật số lượng sản phẩm
+		function updateQuantity(productId, quantity) {
+			const cart = getCart();
+			const updatedCart = cart.map((item) => {
+				if (item.id === productId) {
+					return { ...item, quantity };
+				}
+				return item;
+			});
+			setCart(updatedCart);
+			displayCart(); // Làm mới hiển thị
+		}
+
+		// Xóa sản phẩm khỏi giỏ hàng
+		function removeItem(productId) {
+			const cart = getCart();
+			const updatedCart = cart.filter((item) => item.id !== productId);
+			setCart(updatedCart);
+			displayCart(); // Làm mới hiển thị
+		}
+
+		// Hiển thị giỏ hàng khi tải trang
+		displayCart();
+
+		// Chuyển hướng đến trang thanh toán
+		document.getElementById("checkout-btn").addEventListener("click", () => {
+			window.location.href = "pay.html";
+		});
+	</script>
+</body>
+
 </html>

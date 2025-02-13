@@ -19,7 +19,7 @@ fetch('http://localhost:1234/api/products/hot')
 `
         })
     })
-    .catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
 //san pham hot sachthieunhi
 fetch('http://localhost:1234/api/products/hot/categoryid/1')
@@ -36,14 +36,14 @@ fetch('http://localhost:1234/api/products/hot/categoryid/1')
 `
         })
     })
-    .catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
-    //san pham hot sachvanhoc
+//san pham hot sachvanhoc
 fetch('http://localhost:1234/api/products/hot/categoryid/2')
-.then(response => response.json())
-.then(data => {
-    data.forEach(product => {
-        hotvanhoc.innerHTML += `
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(product => {
+            hotvanhoc.innerHTML += `
 <div class="colum">
 <img src="http://localhost:1234/images/${product.img} ">
 <h3>${product.name}</h3>
@@ -51,12 +51,12 @@ fetch('http://localhost:1234/api/products/hot/categoryid/2')
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
 </div>
 `
+        })
     })
-})
-.catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
-    //san pham hot sachtruyencamhung
-    fetch('http://localhost:1234/api/products/hot/categoryid/3')
+//san pham hot sachtruyencamhung
+fetch('http://localhost:1234/api/products/hot/categoryid/3')
     .then(response => response.json())
     .then(data => {
         data.forEach(product => {
@@ -70,7 +70,7 @@ fetch('http://localhost:1234/api/products/hot/categoryid/2')
     `
         })
     })
-    .catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
 
 //san pham dm1
@@ -88,18 +88,18 @@ fetch('http://localhost:1234/api/products/categoryname/sachthieunhi')
 `
         })
     })
-    .catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
 
 
 
-    
+
 //san pham dm2
 fetch('http://localhost:1234/api/products/categoryname/sachvanhoc')
-.then(response => response.json())
-.then(data => {
-    data.forEach(product => {
-        proCate2.innerHTML += `
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(product => {
+            proCate2.innerHTML += `
 <div class="colum">
 <img src="http://localhost:1234/images/${product.img}">
 <h3>${product.name}</h3>
@@ -107,16 +107,16 @@ fetch('http://localhost:1234/api/products/categoryname/sachvanhoc')
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
 </div>
 `
+        })
     })
-})
-.catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
 //san pham dm3
 fetch('http://localhost:1234/api/products/categoryname/sachtruyencamhung')
-.then(response => response.json())
-.then(data => {
-    data.forEach(product => {
-        proCate3.innerHTML += `
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(product => {
+            proCate3.innerHTML += `
 <div class="colum">
 <img src="http://localhost:1234/images/${product.img}"">
 <h3>${product.name}</h3>
@@ -124,16 +124,20 @@ fetch('http://localhost:1234/api/products/categoryname/sachtruyencamhung')
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
 </div>
 `
+        })
     })
-})
-.catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
 //hien thi tat ca san pham
-fetch('http://localhost:1234/api/products')
-.then(response => response.json())
-.then(data => {
-    data.forEach(product => {
-        proAll.innerHTML += `
+fetch('http://localhost:1234/api/products', {
+    headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+})
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(product => {
+            proAll.innerHTML += `
 <div class="colum">
 <img src="http://localhost:1234/images/${product.img}" ">
 <h3>${product.name}</h3>
@@ -141,9 +145,9 @@ fetch('http://localhost:1234/api/products')
 <a href="./detail.html?id=${product.id}">Xem chi tiết</a>
 </div>
 `
+        })
     })
-})
-.catch(err=>console.log(err))
+    .catch(err => console.log(err))
 
 
 
